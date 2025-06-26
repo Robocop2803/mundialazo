@@ -11,7 +11,7 @@ interface Circuito {
 }
 
 
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function F1Standings({ params, searchParams }: { params: { slug: string }; searchParams?: any }) {
   const supabase = await createClient();
   const temporadaParam = (await searchParams).temporada; // Obtener temporada desde searchParams
