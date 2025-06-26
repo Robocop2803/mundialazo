@@ -12,7 +12,7 @@ interface Circuito {
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default async function F1Standings({ params, searchParams }: { params: { slug: string }; searchParams?: any }) {
+export default async function F1Standings({ params, searchParams }: { params: { slug: string }; searchParams: { temporada: string } }) {
   const supabase = await createClient();
   const temporadaParam = (await searchParams).temporada; // Obtener temporada desde searchParams
   const version = (await params).slug.replace('%20', ' ');
