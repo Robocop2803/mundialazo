@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  /* Colores equipos */
+  --mercedes-bg-color: #00D2BE;
+  --mcLaren-bg-color: #F58020;
+  --redBull-bg-color: #00008B;
+  --ferrari-bg-color: #DC0000;
+  --williams-bg-color: #005AFF;
+  --alpine-bg-color: #2293D1;
+  --astonMartin-bg-color: #006F62;
+  --haas-bg-color: gray;
+  --visaCashAppRB-bg-color: #5078df;
+  --kickSauber-bg-color: #019f09;
+  --null-bg-color: yellow;
+
+  /* Logos equipos */
+  --mercedes-logo: url("/imagenes/equipos/mercedes.avif");
+  --mcLaren-logo: url("/imagenes/equipos/mcLaren.avif");
+  --redBull-logo: url("/imagenes/equipos/redBull.avif");
+  --ferrari-logo: url("/imagenes/equipos/ferrari.avif");
+  --williams-logo: url("/imagenes/equipos/williams.avif");
+  --alpine-logo: url("/imagenes/equipos/alpine.avif");
+  --astonMartin-logo: url("/imagenes/equipos/astonMartin.avif");
+  --haas-logo: url("/imagenes/equipos/haas.avif");
+  --rbHonda-logo: url("/imagenes/equipos/rbHonda.avif");
+  --kickSauber-logo: url("/imagenes/equipos/kickSauber.avif");
+
+  /* Fotos pilotos */
+  --verstappen-foto: url("/imagenes/pilotos/verstappen.avif");
+  --leclerc-foto: url("/imagenes/pilotos/leclerc.avif");
+  --hamilton-foto: url("/imagenes/pilotos/hamilton.avif");
+  --alonso-foto: url("/imagenes/pilotos/alonso.avif");
+  --sargeant-foto: url("/imagenes/pilotos/sargeant.avif");
+  --piastri-foto: url("/imagenes/pilotos/piastri.avif");
+  --bottas-foto: url("/imagenes/pilotos/bottas.avif");
+  --sainz-foto: url("/imagenes/pilotos/sainz.avif");
+  --gasly-foto: url("/imagenes/pilotos/gasly.avif");
+  --tsunoda-foto: url("/imagenes/pilotos/tsunoda.avif");
+  --zhou-foto: url("/imagenes/pilotos/zhou.avif");
+  --magnussen-foto: url("/imagenes/pilotos/magnussen.avif");
+  --ricciardo-foto: url("/imagenes/pilotos/ricciardo.avif");
+  --perez-foto: url("/imagenes/pilotos/perez.avif");
+  --albon-foto: url("/imagenes/pilotos/albon.avif");
+  --ocon-foto: url("/imagenes/pilotos/ocon.avif");
+  --stroll-foto: url("/imagenes/pilotos/stroll.avif");
+  --russell-foto: url("/imagenes/pilotos/russell.avif");
+  --norris-foto: url("/imagenes/pilotos/norris.avif");
+  --hulkenberg-foto: url("/imagenes/pilotos/hulkenberg.avif");
+
+
+  --espada-mercedes-foto: url("/imagenes/pilotos/espada/mercedes.avif");
+  --espada-mcLaren-foto: url("/imagenes/pilotos/espada/mcLaren.avif");
+  --espada-redBull-foto: url("/imagenes/pilotos/espada/redBull.avif");
+  --espada-ferrari-foto: url("/imagenes/pilotos/espada/ferrari.avif");
+  --espada-williams-foto: url("/imagenes/pilotos/espada/williams.avif");
+  --espada-alpine-foto: url("/imagenes/pilotos/espada/alpine.avif");
+  --espada-astonMartin-foto: url("/imagenes/pilotos/espada/astonMartin.avif");
+  --espada-haas-foto: url("/imagenes/pilotos/espada/haas.avif");
+  --espada-rbHonda-foto: url("/imagenes/pilotos/espada/rbHonda.avif");
+  --espada-kickSauber-foto: url("/imagenes/pilotos/espada/kickSauber.avif");
+
+  --castan-mercedes-foto: url("/imagenes/pilotos/castan/mercedes.avif");
+  --castan-mcLaren-foto: url("/imagenes/pilotos/castan/mcLaren.avif");
+  --castan-redBull-foto: url("/imagenes/pilotos/castan/redBull.avif");
+  --castan-ferrari-foto: url("/imagenes/pilotos/castan/ferrari.avif");
+  --castan-williams-foto: url("/imagenes/pilotos/castan/williams.avif");
+  --castan-alpine-foto: url("/imagenes/pilotos/castan/alpine.avif");
+  --castan-astonMartin-foto: url("/imagenes/pilotos/castan/astonMartin.avif");
+  --castan-haas-foto: url("/imagenes/pilotos/castan/haas.avif");
+  --castan-rbHonda-foto: url("/imagenes/pilotos/castan/rbHonda.avif");
+  --castan-kickSauber-foto: url("/imagenes/pilotos/castan/kickSauber.avif");
+
+  --davo-mercedes-foto: url("/imagenes/pilotos/davo/mercedes.avif");
+  --davo-mcLaren-foto: url("/imagenes/pilotos/davo/mcLaren.avif");
+  --davo-redBull-foto: url("/imagenes/pilotos/davo/redBull.avif");
+  --davo-ferrari-foto: url("/imagenes/pilotos/davo/ferrari.avif");
+  --davo-williams-foto: url("/imagenes/pilotos/davo/williams.avif");
+  --davo-alpine-foto: url("/imagenes/pilotos/davo/alpine.avif");
+  --davo-astonMartin-foto: url("/imagenes/pilotos/davo/astonMartin.avif");
+  --davo-haas-foto: url("/imagenes/pilotos/davo/haas.avif");
+  --davo-rbHonda-foto: url("/imagenes/pilotos/davo/rbHonda.avif");
+  --davo-kickSauber-foto: url("/imagenes/pilotos/davo/kickSauber.avif");
+}

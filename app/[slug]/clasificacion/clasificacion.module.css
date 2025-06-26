@@ -1,0 +1,346 @@
+/* Columnas y filas general */
+.fila {
+  border-bottom: solid 2px white;
+  
+}
+
+.logoContainer {
+  display: table-cell;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+}
+.logo {
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+}
+
+.caraContainer {
+  display: table-cell;
+  min-width: 50px;
+  min-height: 50px;
+  vertical-align: bottom;
+}
+.cara {
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+}
+
+.pilotoNombre {
+  display: table-cell;
+  width: 200px;
+  padding-left: 20px;
+  font-size: 20px;
+  font-weight: 750;
+  vertical-align: middle;
+}
+
+.puntuacion {
+  font-weight: 700;
+  text-align: center;
+  width: 60px;
+  font-size: 1.3rem;
+}
+.posicion {
+  text-align: center;
+  width: 50px;
+  font-size: 20px;
+}
+
+.mensajeNoResultados {
+  text-align: center;
+  color: white;
+  font-size: 1.25rem;
+  margin: 2rem 0;
+  display: 'flex';
+  justify-content: 'center';
+}
+
+.fotoNoResultados{
+  margin-top: 50px;;
+}
+
+
+/* Colores de cada equipo */
+.mercedesPiloto {
+  background-color: var(--mercedes-bg-color);
+  color: black;
+}
+
+.mcLarenPiloto {
+  background-color: var(--mcLaren-bg-color);
+}
+
+.redBullPiloto {
+  background-color: var(--redBull-bg-color);
+}
+
+.ferrariPiloto {
+  background-color: var(--ferrari-bg-color);
+}
+
+.williamsPiloto {
+  background-color: var(--williams-bg-color);
+}
+
+.alpinePiloto {
+  background-color: var(--alpine-bg-color);
+}
+
+.astonMartinPiloto {
+  background-color: var(--astonMartin-bg-color);
+}
+
+.visaCashAppRBPiloto {
+  background-color: var(--visaCashAppRB-bg-color);
+}
+
+.haasPiloto {
+  background-color: var(--haas-bg-color);
+}
+
+.kickSauberPiloto {
+  background-color: var(--kickSauber-bg-color);
+}
+
+.nullPiloto {
+  background-color: var(--null-bg-color);
+  color: black;
+}
+
+/* Logo de los equipos */
+.mercedesLogo {
+  background-image: var(--mercedes-logo);
+}
+
+.mcLarenLogo {
+  background-image: var(--mcLaren-logo);
+}
+
+.redBullLogo {
+  background-image: var(--redBull-logo);
+}
+
+.ferrariLogo {
+  background-image: var(--ferrari-logo);
+}
+
+.williamsLogo {
+  background-image: var(--williams-logo);
+}
+
+.alpineLogo {
+  background-image: var(--alpine-logo);
+}
+
+.astonMartinLogo {
+  background-image: var(--astonMartin-logo);
+}
+
+.rbHondaLogo {
+  background-image: var(--rbHonda-logo);
+}
+
+.haasLogo {
+  background-image: var(--haas-logo);
+}
+
+.kickSauberLogo {
+  background-image: var(--kickSauber-logo);
+}
+
+.chaqueteroLogo::after {
+  content: "chaquetero";
+}
+
+.nullLogo::after {
+  content: "fuck";
+}
+
+/* Foto de cada piloto */
+.pilotoVerstappen {
+  background-image: var(--verstappen-foto);
+}
+
+.pilotoLeclerc {
+  background-image: var(--leclerc-foto);
+}
+
+.pilotoHamilton {
+  background-image: var(--hamilton-foto);
+}
+
+.pilotoAlonso {
+  background-image: var(--alonso-foto);
+}
+
+.pilotoSargeant {
+  background-image: var(--sargeant-foto);
+}
+
+.pilotoPiastri {
+  background-image: var(--piastri-foto);
+}
+
+.pilotoBottas {
+  background-image: var(--bottas-foto);
+}
+
+.pilotoSainz {
+  background-image: var(--sainz-foto);
+}
+
+.pilotoGasly {
+  background-image: var(--gasly-foto);
+}
+
+.pilotoTsunoda {
+  background-image: var(--tsunoda-foto);
+}
+
+.pilotoZhou {
+  background-image: var(--zhou-foto);
+}
+
+.pilotoMagnussen {
+  background-image: var(--magnussen-foto);
+}
+
+.pilotoRicciardo {
+  background-image: var(--ricciardo-foto);
+}
+
+.pilotoPerez {
+  background-image: var(--perez-foto);
+}
+
+.pilotoAlbon {
+  background-image: var(--albon-foto);
+}
+
+.pilotoOcon {
+  background-image: var(--ocon-foto);
+}
+
+.pilotoStroll {
+  background-image: var(--stroll-foto);
+}
+
+.pilotoNorris {
+  background-image: var(--norris-foto);
+}
+
+.pilotoRussell {
+  background-image: var(--russell-foto);
+}
+
+.pilotoHulkenberg {
+  background-image: var(--hulkenberg-foto);
+}
+
+
+
+
+.espadaMercedes {
+  background-image: var( --espada-mercedes-foto);
+}
+.espadaMcLaren {
+  background-image: var( --espada-mcLaren-foto);
+}
+.espadaRedBull {
+  background-image: var( --espada-redBull-foto);
+}
+.espadaFerrari {
+  background-image: var( --espada-ferrari-foto);
+}
+.espadaWilliams {
+  background-image: var( --espada-williams-foto);
+}
+.espadaAlpine {
+  background-image: var( --espada-alpine-foto);
+}
+.espadaAstonMartin {
+  background-image: var( --espada-astonMartin-foto);
+}
+.espadaHaas {
+  background-image: var( --espada-haas-foto);
+}
+.espadaRbHonda {
+  background-image: var( --espada-rbHonda-foto);
+}
+.espadaKickSauber {
+  background-image: var( --espada-kickSauber-foto);
+}
+.espadaChaquetero::after {
+  content: "chaquetero";
+}
+
+.castanMercedes {
+  background-image: var( --castan-mercedes-foto);
+}
+.castanMcLaren {
+  background-image: var( --castan-mcLaren-foto);
+}
+.castanRedBull {
+  background-image: var( --castan-redBull-foto);
+}
+.castanFerrari {
+  background-image: var( --castan-ferrari-foto);
+}
+.castanWilliams {
+  background-image: var( --castan-williams-foto);
+}
+.castanAlpine {
+  background-image: var( --castan-alpine-foto);
+}
+.castanAstonMartin {
+  background-image: var( --castan-astonMartin-foto);
+}
+.castanHaas {
+  background-image: var( --castan-haas-foto);
+}
+.castanRbHonda {
+  background-image: var( --castan-rbHonda-foto);
+}
+.castanKickSauber {
+  background-image: var( --castan-kickSauber-foto);
+}
+.castanChaquetero::after {
+  content: "chaquetero";
+}
+
+.davoMercedes {
+  background-image: var( --davo-mercedes-foto);
+}
+.davoMcLaren {
+  background-image: var( --davo-mcLaren-foto);
+}
+.davoRedBull {
+  background-image: var( --davo-redBull-foto);
+}
+.davoFerrari {
+  background-image: var( --davo-ferrari-foto);
+}
+.davoWilliams {
+  background-image: var( --davo-williams-foto);
+}
+.davoAlpine {
+  background-image: var( --davo-alpine-foto);
+}
+.davoAstonMartin {
+  background-image: var( --davo-astonMartin-foto);
+}
+.davoHaas {
+  background-image: var( --davo-haas-foto);
+}
+.davoRbHonda {
+  background-image: var( --davo-rbHonda-foto);
+}
+.davoKickSauber {
+  background-image: var( --davo-kickSauber-foto);
+}
+.davoChaquetero::after {
+  content: "chaquetero";
+}
