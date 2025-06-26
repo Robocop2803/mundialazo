@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import styles from './clasificacion.module.css';
 import Image from 'next/image';
-import { Resultado } from '../../../types/Resultado';
+import { Resultado } from '../../../../types/Resultado';
 
 // app/f1-standings/page.tsx
 
@@ -12,11 +12,10 @@ interface Circuito {
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default async function F1Standings({ params, searchParams }: { params: { slug: string }; searchParams: { temporada: string } }) {
+export default async function F1Standings({ params }: { params: any }) {
   const supabase = await createClient();
-  const temporadaParam = (await searchParams).temporada; // Obtener temporada desde searchParams
-  const version = (await params).slug.replace('%20', ' ');
-  console.log(version);
+  const temporadaParam = (await params).temporada; // Obtener temporada desde searchParams
+  const version = (await params).version;
 
 
 
@@ -70,7 +69,7 @@ export default async function F1Standings({ params, searchParams }: { params: { 
     const ultimoCircuitoId = carrerasCorridas[0];
     //const penultimoCircuitoId = carrerasCorridas.length >= 2 ? carrerasCorridas[1] : 0;
 
-    console.log(carrerasCorridas);
+    //console.log(carrerasCorridas);
 
     const ultimoCircuito = circuitos?.find((circuito) => circuito.id === ultimoCircuitoId)?.nombre;
     
@@ -98,7 +97,7 @@ export default async function F1Standings({ params, searchParams }: { params: { 
       .sort((a, b) => b.puntos - a.puntos)
       .map((item, index) => ({ ...item, posicion: index + 1 }));
 
-      console.log(resultados);
+      //console.log(resultados);
       
 
     return { resultados, ultimoCircuito, temporada };
