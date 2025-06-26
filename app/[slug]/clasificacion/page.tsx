@@ -2,7 +2,6 @@ import { createClient } from '@/lib/supabase/server';
 import styles from './clasificacion.module.css';
 import Image from 'next/image';
 import { Resultado } from '../../../types/Resultado';
-import { NextRequest, NextResponse } from 'next/server';
 
 // app/f1-standings/page.tsx
 
@@ -43,7 +42,7 @@ export default async function F1Standings({ params, searchParams }: { params: { 
     }
 
     // Consultar los datos desde Supabase para la temporada seleccionada
-    const { data, error }: { data: Resultado[] | null; error: any } = await supabase
+    const { data }: { data: Resultado[] | null} = await supabase
       .from('resultados')
       .select()
       .eq('version', version)
@@ -69,7 +68,7 @@ export default async function F1Standings({ params, searchParams }: { params: { 
     const carrerasCorridas = [...new Set(data.map((result) => result.carrera))].reverse();
     
     const ultimoCircuitoId = carrerasCorridas[0];
-    const penultimoCircuitoId = carrerasCorridas.length >= 2 ? carrerasCorridas[1] : 0;
+    //const penultimoCircuitoId = carrerasCorridas.length >= 2 ? carrerasCorridas[1] : 0;
 
     console.log(carrerasCorridas);
 
@@ -185,7 +184,7 @@ function getClassEquipo(equipo: string) {
 }
 
 function getClassEquipoLogo(equipo: string): string {
-  let equipoStyle = equipo === 'McLaren' ? styles.mcLarenLogo
+  const equipoStyle = equipo === 'McLaren' ? styles.mcLarenLogo
     : equipo === 'Red Bull' ? styles.redBullLogo
       : equipo === 'Mercedes-AMG Petronas' ? styles.mercedesLogo
         : equipo === 'Scuderia Ferrari HP' ? styles.ferrariLogo
@@ -202,7 +201,7 @@ function getClassEquipoLogo(equipo: string): string {
 }
 
 function getClassPilotoFoto(piloto: string, equipo: string) {
-  let pilotoStyle = piloto === 'VERSTAPPEN' ? styles.pilotoVerstappen
+  const pilotoStyle = piloto === 'VERSTAPPEN' ? styles.pilotoVerstappen
     : piloto === 'CASTAN' ? getClassFotoNuestra(piloto, equipo)
       : piloto === 'ESPADA' ? getClassFotoNuestra(piloto, equipo)
         : piloto === 'DAVO' ? getClassFotoNuestra(piloto, equipo)

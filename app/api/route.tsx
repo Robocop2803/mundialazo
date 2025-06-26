@@ -2,12 +2,6 @@ import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resultado } from '../../types/Resultado';
 
-interface Circuito {
-  id: number;
-  nombre: string;
-  pais: string;
-  // Añade más campos según tu esquema de circuitos
-}
 
 // Handler principal de la API
 export async function GET(request: NextRequest) {
