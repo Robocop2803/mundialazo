@@ -74,6 +74,8 @@ export async function POST(request: NextRequest) {
           .limit(1)
           .single();
 
+          if (errorUltimaCarrera) throw errorUltimaCarrera;
+
 
       resultado.map((fila) => fila.carrera = dataUltimaCarrera?.carrera + 1 || 1)
       console.log(resultado);
