@@ -132,7 +132,7 @@ export default async function F1Standings({ params }: { params: any }) {
           </div>
 
         ) : (
-          <div className="text-center text-gray-400 mb-8">
+          <div className="text-center text-gray-400 mb-8" style={{textDecoration: 'line-through'}}>
             Puntos hasta el GP de <strong>{ultimoCircuito || 'No disponible'}</strong>
           </div>
         )}

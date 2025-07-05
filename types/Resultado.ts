@@ -12,4 +12,5 @@ export interface Resultado {
   tiempo: string;
   puntos: number;
   circuito: number;
+  version: string
 }

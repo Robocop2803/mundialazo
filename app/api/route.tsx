@@ -7,17 +7,29 @@ import { Resultado } from '../../types/Resultado';
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const { searchParams } = new URL(request.url);
-  const action = searchParams.get('action');
+  const action = searchParams.get('consulta');
 
   try {
     switch (action) {
-      case 'versiones': {
-        // Usar una consulta raw para obtener temporadas únicas
-        const { data, error } = await supabase.rpc('get_unique_temporadas');
+      case 'datosCarrera': {
+        console.log("consultando datosCarrera");
+        
+        const version = searchParams.get('version');
+        const { data, error } = await supabase
+          .from('lista_carreras')
+          .select('temporada, carrera, circuito')
+
+          .eq("version", version)
+          
+          .order('temporada', { ascending: false })
+          .order('carrera', { ascending: false })
+          .limit(2);
+          
+
 
         if (error) throw error;
-        const versiones = data as number[]; // Asegúrate de que el tipo coincida con lo que devuelve tu función
-        return NextResponse.json({ success: true, data: versiones });
+        return Response.json({ data })
+        return NextResponse.json({ success: true, data });
       }
 
       case 'circuitos': {
@@ -43,32 +55,34 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
 
+  
+  
+
   try {
     // Obtener el cuerpo de la solicitud
     const body = await request.json();
-    const resultado: Resultado = body;
+    const resultado: Resultado[] = body;
 
-    // Validar que los campos necesarios estén presentes
-    if (!resultado.temporada || !resultado.carrera || !resultado.piloto || !resultado.equipo || !resultado.circuito) {
-      return NextResponse.json({ success: false, message: 'Faltan campos obligatorios' }, { status: 400 });
-    }
+
+    const { data: dataUltimaCarrera, error:errorUltimaCarrera } = await supabase
+          .from('lista_carreras')
+          .select('carrera')
+          .eq("version", resultado[0].version)
+          .eq("temporada", resultado[0].temporada)
+          .order('temporada', { ascending: false })
+          .order('carrera', { ascending: false })
+          .limit(1)
+          .single();
+
+
+      resultado.map((fila) => fila.carrera = dataUltimaCarrera?.carrera + 1 || 1)
+      console.log(resultado);
+          
 
     // Insertar el resultado en la tabla resultados
     const { data, error } = await supabase
       .from('resultados')
-      .insert({
-        temporada: resultado.temporada,
-        carrera: resultado.carrera,
-        posicion: resultado.posicion,
-        piloto: resultado.piloto,
-        equipo: resultado.equipo,
-        parrilla: resultado.parrilla,
-        paradas: resultado.paradas,
-        vuelta_rapida: resultado.vuelta_rapida,
-        tiempo: resultado.tiempo,
-        puntos: resultado.puntos,
-        circuito: resultado.circuito,
-      })
+      .insert(resultado)
       .select();
 
     if (error) throw error;
