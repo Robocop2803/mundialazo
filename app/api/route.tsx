@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resultado } from '../../types/Resultado';
-import { log } from 'console';
 
 
 // Handler principal de la API
@@ -75,9 +74,12 @@ export async function POST(request: NextRequest) {
       .select();
 
       if (error) throw error;
+      console.log(data);
+      
     return NextResponse.json({ success: true, body });
 
 
+    /*
     const { data: dataUltimaCarrera, error:errorUltimaCarrera } = await supabase
           .from('lista_carreras')
           .select('carrera')
@@ -107,4 +109,5 @@ export async function POST(request: NextRequest) {
     console.error('Error al añadir resultado:', error2);
     return NextResponse.json({ success: false, message: 'Error al añadir resultado' }, { status: 500 });
   }
+  */
 }
