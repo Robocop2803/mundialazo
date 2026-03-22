@@ -78,7 +78,6 @@ export async function POST(request: NextRequest) {
       
     return NextResponse.json({ success: true, body });
 
-
     /*
     const { data: dataUltimaCarrera, error:errorUltimaCarrera } = await supabase
           .from('lista_carreras')
