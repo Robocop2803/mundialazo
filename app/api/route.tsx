@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resultado } from '../../types/Resultado';
+import { log } from 'console';
 
 
 // Handler principal de la API
@@ -42,7 +43,6 @@ export async function GET(request: NextRequest) {
         if (error) throw error;
         return NextResponse.json({ success: true, data });
       }
-
       default:
         return NextResponse.json({ success: false, message: 'Acción no válida. Usa ?action=versiones o ?action=circuitos' }, { status: 400 });
     }
@@ -55,6 +55,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
 
+
+
+  
+
   
   
 
@@ -62,6 +66,16 @@ export async function POST(request: NextRequest) {
     // Obtener el cuerpo de la solicitud
     const body = await request.json();
     const resultado: Resultado[] = body;
+
+    console.log(resultado);
+    // Insertar el resultado en la tabla resultados
+    const { data, error } = await supabase
+      .from('resultadosV2')
+      .insert(resultado)
+      .select();
+
+      if (error) throw error;
+    return NextResponse.json({ success: true, body });
 
 
     const { data: dataUltimaCarrera, error:errorUltimaCarrera } = await supabase
@@ -82,15 +96,15 @@ export async function POST(request: NextRequest) {
           
 
     // Insertar el resultado en la tabla resultados
-    const { data, error } = await supabase
+    const { data2, error2 } = await supabase
       .from('resultados')
       .insert(resultado)
       .select();
 
-    if (error) throw error;
-    return NextResponse.json({ success: true, data });
-  } catch (error) {
-    console.error('Error al añadir resultado:', error);
+    if (error2) throw error2;
+    return NextResponse.json({ success: true, data2 });
+  } catch (error2) {
+    console.error('Error al añadir resultado:', error2);
     return NextResponse.json({ success: false, message: 'Error al añadir resultado' }, { status: 500 });
   }
 }
