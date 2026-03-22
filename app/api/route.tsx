@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
       
     return NextResponse.json({ success: true, body });
 
+
     /*
     const { data: dataUltimaCarrera, error:errorUltimaCarrera } = await supabase
           .from('lista_carreras')
@@ -104,9 +105,10 @@ export async function POST(request: NextRequest) {
 
     if (error2) throw error2;
     return NextResponse.json({ success: true, data2 });
-  } catch (error2) {
-    console.error('Error al añadir resultado:', error2);
+    */
+  } catch (error) {
+    console.error('Error al añadir resultado:', error);
     return NextResponse.json({ success: false, message: 'Error al añadir resultado' }, { status: 500 });
   }
-  */
+  
 }
