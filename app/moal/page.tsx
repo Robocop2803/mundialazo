@@ -342,7 +342,7 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
 }
 
 // Helper functions para clases
-function getClassEquipo(equipo: string): string {
+function getClassEquipo(equipo: string): string { 
   const classes: Record<string, string> = {
     'McLaren': styles.mcLaren,
     'Red Bull': styles.redBull,
