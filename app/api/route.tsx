@@ -73,6 +73,8 @@ export async function POST(request: NextRequest) {
       .insert(resultado)
       .select();
 
+      //await supabase.rpc('actualizar_nombres_pilotos');
+
       if (error) throw error;
       console.log(data);
       

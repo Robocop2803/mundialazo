@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import F1Standings from './moal/page';
+import F1Standings from './moal/page';   // Asegúrate que la ruta sea correcta
 
 interface RaceResult {
   id?: number;
@@ -18,17 +18,11 @@ interface Circuito {
   country: string;
 }
 
-// Tipo correcto para el cliente Supabase (Server)
-//type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
-
 export default async function Home() {
   const supabase = await createClient();
 
   // 1. Actualizamos los nombres de los pilotos
-  //await actualizarNombresDePilotos(supabase);
-
-  //const supabase = await createClient();
-//await supabase.rpc('actualizar_nombres_pilotos');
+  await actualizarNombresDePilotos(supabase);
 
   // 2. Obtenemos los resultados
   const { data: resultadosRaw, error: errorResultados } = await supabase
@@ -57,6 +51,7 @@ export default async function Home() {
 
   if (errorCircuitos) {
     console.error('Error al cargar circuitos:', errorCircuitos);
+    // Continuamos sin circuitos (el componente tiene fallback)
   }
 
   const circuitos: Circuito[] = circuitosData ?? [];
@@ -73,8 +68,8 @@ export default async function Home() {
 /**
  * Actualiza los nombres de los pilotos en la tabla resultadosV2
  * usando la información de la tabla 'cuentas'
- 
-async function actualizarNombresDePilotos(supabase: SupabaseClient) {
+ */
+async function actualizarNombresDePilotos(supabase: any) {   // Temporalmente any (puedes mejorar después)
   try {
     console.log('🔄 Iniciando actualización de nombres de pilotos...');
 
@@ -85,7 +80,7 @@ async function actualizarNombresDePilotos(supabase: SupabaseClient) {
 
     if (errorCuentas) {
       console.error('❌ Error al obtener cuentas:', errorCuentas);
-      return;
+      return; // No lanzamos error para no romper toda la página
     }
 
     if (!cuentas || cuentas.length === 0) {
@@ -123,5 +118,3 @@ async function actualizarNombresDePilotos(supabase: SupabaseClient) {
     console.error('💥 Error general durante la actualización de nombres:', err);
   }
 }
-  
-*/
