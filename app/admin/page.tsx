@@ -10,6 +10,8 @@ interface Cuenta {
 
 const NOMBRES_POSIBLES = ['ESPADA', 'CASTAN', 'DAVO'] as const;
 
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
+
 export default async function CuentasPage() {
   const supabase = await createClient();
 
@@ -30,7 +32,9 @@ export default async function CuentasPage() {
     .not('name', 'is', null);
 
   const nombresEnResultados = Array.from(
-    new Set(resultadosRaw?.map((r: any) => r.name).filter(Boolean) || [])
+    new Set(
+      (resultadosRaw ?? []).map((r: { name: string | null }) => r.name).filter(Boolean) as string[]
+    )
   ).sort();
 
   const gameIdsRegistrados = new Set(cuentas.map((c: Cuenta) => c.game_id));
@@ -46,14 +50,13 @@ export default async function CuentasPage() {
     const game_id = (formData.get('game_id') as string)?.trim();
     const name = formData.get('name') as string;
 
-    if (!game_id || !NOMBRES_POSIBLES.includes(name as any)) {
-      // En producción puedes redirigir con mensaje de error, por ahora solo log
+    if (!game_id || !NOMBRES_POSIBLES.includes(name as typeof NOMBRES_POSIBLES[number])) {
       console.error('Datos inválidos para agregar cuenta');
       revalidatePath('/admin');
       return;
     }
 
-    // Crear un nuevo cliente dentro de la Server Action (importante!)
+    // Crear un nuevo cliente dentro de la Server Action
     const supabaseAction = await createClient();
 
     const { error } = await supabaseAction
@@ -153,7 +156,7 @@ export default async function CuentasPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800">
-                  {cuentas.map((cuenta: Cuenta) => (
+                  {cuentas.map((cuenta) => (
                     <tr key={cuenta.id} className="hover:bg-gray-800/50">
                       <td className="px-8 py-5 font-mono text-lg">{cuenta.game_id}</td>
                       <td className="px-8 py-5">
