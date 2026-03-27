@@ -25,7 +25,10 @@ export default async function Home() {
   const supabase = await createClient();
 
   // 1. Actualizamos los nombres de los pilotos
-  await actualizarNombresDePilotos(supabase);
+  //await actualizarNombresDePilotos(supabase);
+
+  //const supabase = await createClient();
+await supabase.rpc('actualizar_nombres_pilotos');
 
   // 2. Obtenemos los resultados
   const { data: resultadosRaw, error: errorResultados } = await supabase
@@ -70,7 +73,7 @@ export default async function Home() {
 /**
  * Actualiza los nombres de los pilotos en la tabla resultadosV2
  * usando la información de la tabla 'cuentas'
- */
+ 
 async function actualizarNombresDePilotos(supabase: SupabaseClient) {
   try {
     console.log('🔄 Iniciando actualización de nombres de pilotos...');
@@ -120,3 +123,5 @@ async function actualizarNombresDePilotos(supabase: SupabaseClient) {
     console.error('💥 Error general durante la actualización de nombres:', err);
   }
 }
+  
+*/
