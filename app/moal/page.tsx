@@ -37,16 +37,10 @@ const TEAM_NAMES: Record<number, string> = {
   9: 'KICK Sauber',
 };
 
-const circuitos: Circuito[] | null = (await supabase.from('circuitosNew').select('*')).data;
+const POINTS_BY_POSITION = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
 function getTeamName(teamId: number): string {
   return TEAM_NAMES[teamId] ?? 'chaquetero';
-}
-
-function getCircuitoInfo(id: number | null): string {
-  if (id === null) return 'Carrera desconocida';
-  const c = circuitos?.find((circ) => circ.id === id);
-  return c ? `${c.name} (${c.country})` : `Carrera ${id}`;
 }
 
 interface ResultRow {
@@ -63,9 +57,15 @@ interface ResultRow {
 interface F1StandingsProps {
   data: RaceResult[];
   version?: string;
+  circuitos?: Circuito[];   // ← Ahora se pasa como prop
 }
 
-export default function F1Standings({ data = [], version }: F1StandingsProps) {
+export default function F1Standings({ 
+  data = [], 
+  version, 
+  circuitos = [] 
+}: F1StandingsProps) {
+
   const [modo, setModo] = useState<'general' | 'carrera'>('general');
   const [carreraSeleccionada, setCarreraSeleccionada] = useState<number | null>(null);
   const [editingDriverId, setEditingDriverId] = useState<number | null>(null);
@@ -75,11 +75,18 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
   const carrerasDisponibles = Array.from(new Set(data.map(r => r.id_carrera)))
     .sort((a, b) => b - a);
 
+  // useEffect corregido (sin warning)
   useEffect(() => {
     if (carrerasDisponibles.length > 0 && carreraSeleccionada === null) {
       setCarreraSeleccionada(carrerasDisponibles[0]);
     }
-  }, [carrerasDisponibles]);
+  }, [carrerasDisponibles, carreraSeleccionada]);
+
+  const getCircuitoInfo = (id: number | null): string => {
+    if (id === null) return 'Carrera desconocida';
+    const c = circuitos.find((circ) => circ.id === id);
+    return c ? `${c.name} (${c.country})` : `Carrera ${id}`;
+  };
 
   const handleGuardarSancion = async (driver: ResultRow) => {
     if (!driver.id) {
@@ -91,7 +98,9 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
 
     const { error } = await supabase
       .from('resultadosV2')
-      .update({ sancion_segundos: sancionValor > 0 ? sancionValor : null })
+      .update({ 
+        sancion_segundos: sancionValor > 0 ? sancionValor : null 
+      })
       .eq('id', driver.id);
 
     setLoadingSave(false);
@@ -111,7 +120,7 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
 
   if (modo === 'general') {
     const byCarrera: Record<number, RaceResult[]> = data.reduce((acc, r) => {
-      acc[r.id_carrera] = acc[r.id_carrera] || [];
+      if (!acc[r.id_carrera]) acc[r.id_carrera] = [];
       acc[r.id_carrera].push(r);
       return acc;
     }, {} as Record<number, RaceResult[]>);
@@ -128,13 +137,17 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
 
       ordenados.forEach((r, i) => {
         const pos = i + 1;
-        const puntosNuevos = pos <= 10 ? [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][pos - 1] : 0;
+        const puntosNuevos = pos <= POINTS_BY_POSITION.length 
+          ? POINTS_BY_POSITION[pos - 1] 
+          : 0;
+
         const piloto = r.name;
         const equipo = getTeamName(r.teamId);
 
         if (!puntosPorPiloto[piloto]) {
           puntosPorPiloto[piloto] = { puntos: 0, equipo };
         }
+
         puntosPorPiloto[piloto].puntos += puntosNuevos;
 
         if (puntosPorPiloto[piloto].equipo !== equipo && puntosPorPiloto[piloto].equipo !== 'chaquetero') {
@@ -160,7 +173,9 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
 
     resultados = ordenados.map((r, i) => {
       const posFinal = i + 1;
-      const puntosNuevos = posFinal <= 10 ? [25, 18, 15, 12, 10, 8, 6, 4, 2, 1][posFinal - 1] : 0;
+      const puntosNuevos = posFinal <= POINTS_BY_POSITION.length 
+        ? POINTS_BY_POSITION[posFinal - 1] 
+        : 0;
 
       return {
         id: r.id,
@@ -169,7 +184,9 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
         piloto: r.name,
         equipo: getTeamName(r.teamId),
         puntos: puntosNuevos,
-        sancionTexto: r.sancion_segundos && r.sancion_segundos > 0 ? `+${r.sancion_segundos}s` : undefined,
+        sancionTexto: r.sancion_segundos && r.sancion_segundos > 0 
+          ? `+${r.sancion_segundos}s` 
+          : undefined,
         sancion_segundos: r.sancion_segundos,
       };
     });
@@ -179,9 +196,7 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
     <div className="min-h-screen bg-gray-950 py-8">
       <div className="container mx-auto px-4 max-w-5xl">
         <h1 className="text-4xl font-bold text-center text-white mb-8 tracking-tight">
-          Clasificación {version || ''}
-          <br></br>
-          1ª Edición
+          Clasificación {version || ''}<br />1ª Edición
         </h1>
 
         {/* Tabs */}
@@ -234,7 +249,13 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
           <div className="flex flex-col items-center justify-center py-20">
             <div className={styles.mensajeNoResultados}>
               No hay resultados disponibles.
-              <Image src="/imagenes/otras/sad.webp" alt="No hay resultados" width={120} height={120} className="mt-6 opacity-80" />
+              <Image 
+                src="/imagenes/otras/sad.webp" 
+                alt="No hay resultados" 
+                width={120} 
+                height={120} 
+                className="mt-6 opacity-80" 
+              />
             </div>
           </div>
         ) : (
@@ -244,7 +265,6 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
                 key={driver.posicion}
                 className={`${styles.tarjetaEquipo} ${getClassEquipo(driver.equipo)}`}
               >
-                {/* Cabecera con color del equipo */}
                 <div className={styles.cabeceraEquipo}>
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-4">
@@ -263,7 +283,6 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
                   </div>
                 </div>
 
-                {/* Contenido principal */}
                 <div className={styles.contenidoTarjeta}>
                   <div className="flex items-center gap-4">
                     <div className={styles.logoContainer}>
@@ -331,18 +350,21 @@ export default function F1Standings({ data = [], version }: F1StandingsProps) {
           </div>
         )}
 
-        {/* Tabla Desktop - Pendiente de mejorar si quieres */}
-        <div className="hidden md:block overflow-x-auto mt-10">
-          {/* Aquí puedes poner tu tabla desktop mejorada más adelante */}
-          <p className="text-center text-gray-500">Tabla desktop en desarrollo...</p>
+        {/* Placeholder para tabla desktop */}
+        <div className="hidden md:block mt-10">
+          <p className="text-center text-gray-500 py-20">
+            Tabla para desktop en desarrollo...<br />
+            (Puedes añadirla más adelante)
+          </p>
         </div>
       </div>
     </div>
   );
 }
 
-// Helper functions para clases
-function getClassEquipo(equipo: string): string { 
+// ====================== HELPER FUNCTIONS ======================
+
+function getClassEquipo(equipo: string): string {
   const classes: Record<string, string> = {
     'McLaren': styles.mcLaren,
     'Red Bull': styles.redBull,

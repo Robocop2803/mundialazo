@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import F1Standings from './moal/page';
+import F1Standings from './moal/page';   // Asegúrate que la ruta sea correcta
 
 interface RaceResult {
   id?: number;
@@ -12,20 +12,26 @@ interface RaceResult {
   sancion_segundos?: number | null;
 }
 
+interface Circuito {
+  id: number;
+  name: string;
+  country: string;
+}
+
 export default async function Home() {
   const supabase = await createClient();
 
-  // Actualizamos los nombres antes de cargar los resultados
+  // 1. Actualizamos los nombres de los pilotos
   await actualizarNombresDePilotos(supabase);
 
-  // Obtenemos los resultados actualizados
-  const { data: resultadosRaw, error } = await supabase
+  // 2. Obtenemos los resultados
+  const { data: resultadosRaw, error: errorResultados } = await supabase
     .from('resultadosV2')
     .select('*')
-    .order('id_carrera', { ascending: false }); // opcional: ordenar por carrera más reciente
+    .order('id_carrera', { ascending: false });
 
-  if (error) {
-    console.error('Error al consultar resultadosV2:', error);
+  if (errorResultados) {
+    console.error('Error al consultar resultadosV2:', errorResultados);
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="text-center">
@@ -38,14 +44,32 @@ export default async function Home() {
 
   const resultados: RaceResult[] = resultadosRaw ?? [];
 
-  return <F1Standings data={resultados} version="MOAL" />;
+  // 3. Obtenemos la lista de circuitos
+  const { data: circuitosData, error: errorCircuitos } = await supabase
+    .from('circuitosNew')
+    .select('*');
+
+  if (errorCircuitos) {
+    console.error('Error al cargar circuitos:', errorCircuitos);
+    // Continuamos sin circuitos (el componente tiene fallback)
+  }
+
+  const circuitos: Circuito[] = circuitosData ?? [];
+
+  return (
+    <F1Standings 
+      data={resultados} 
+      version="Fantasy" 
+      circuitos={circuitos}
+    />
+  );
 }
 
 /**
  * Actualiza los nombres de los pilotos en la tabla resultadosV2
  * usando la información de la tabla 'cuentas'
  */
-async function actualizarNombresDePilotos(supabase: any) {
+async function actualizarNombresDePilotos(supabase: any) {   // Temporalmente any (puedes mejorar después)
   try {
     console.log('🔄 Iniciando actualización de nombres de pilotos...');
 
@@ -56,7 +80,7 @@ async function actualizarNombresDePilotos(supabase: any) {
 
     if (errorCuentas) {
       console.error('❌ Error al obtener cuentas:', errorCuentas);
-      throw errorCuentas;
+      return; // No lanzamos error para no romper toda la página
     }
 
     if (!cuentas || cuentas.length === 0) {
@@ -75,14 +99,13 @@ async function actualizarNombresDePilotos(supabase: any) {
       const { error } = await supabase
         .from('resultadosV2')
         .update({ name: cuenta.name.trim() })
-        .eq('name', cuenta.game_id);   // Match: donde el name actual es el game_id
+        .eq('name', cuenta.game_id);
 
       if (error) {
         console.error(`❌ Error actualizando ${cuenta.game_id}:`, error.message);
         errores++;
       } else {
         actualizados++;
-        // Opcional: mostrar solo cada 10 para no saturar la consola
         if (actualizados % 10 === 0 || actualizados === cuentas.length) {
           console.log(`✅ ${actualizados}/${cuentas.length} actualizados`);
         }
