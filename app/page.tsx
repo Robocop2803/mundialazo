@@ -28,7 +28,7 @@ export default async function Home() {
   //await actualizarNombresDePilotos(supabase);
 
   //const supabase = await createClient();
-await supabase.rpc('actualizar_nombres_pilotos');
+//await supabase.rpc('actualizar_nombres_pilotos');
 
   // 2. Obtenemos los resultados
   const { data: resultadosRaw, error: errorResultados } = await supabase
