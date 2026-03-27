@@ -10,7 +10,6 @@ interface Cuenta {
 
 const NOMBRES_POSIBLES = ['ESPADA', 'CASTAN', 'DAVO'] as const;
 
-type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
 
 export default async function CuentasPage() {
   const supabase = await createClient();
