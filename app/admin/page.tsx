@@ -10,12 +10,11 @@ interface Cuenta {
 
 const NOMBRES_POSIBLES = ['ESPADA', 'CASTAN', 'DAVO'] as const;
 
-
 export default async function CuentasPage() {
   const supabase = await createClient();
 
   // Obtener todas las cuentas
-  const { data: cuentas = [], error: errorCuentas } = await supabase
+  const { data: cuentasData, error: errorCuentas } = await supabase
     .from('cuentas')
     .select('*')
     .order('game_id', { ascending: true });
@@ -23,6 +22,9 @@ export default async function CuentasPage() {
   if (errorCuentas) {
     console.error('Error al cargar cuentas:', errorCuentas);
   }
+
+  // Aseguramos que siempre sea un array
+  const cuentas: Cuenta[] = cuentasData ?? [];
 
   // Obtener nombres únicos de resultadosV2
   const { data: resultadosRaw } = await supabase
@@ -32,11 +34,11 @@ export default async function CuentasPage() {
 
   const nombresEnResultados = Array.from(
     new Set(
-      (resultadosRaw ?? []).map((r: { name: string | null }) => r.name).filter(Boolean) as string[]
+      (resultadosRaw ?? []).map((r) => r.name).filter((name): name is string => Boolean(name))
     )
   ).sort();
 
-  const gameIdsRegistrados = new Set(cuentas.map((c: Cuenta) => c.game_id));
+  const gameIdsRegistrados = new Set(cuentas.map((c) => c.game_id));
 
   const nombresDisponibles = nombresEnResultados.filter(
     (nombre) => !gameIdsRegistrados.has(nombre)
@@ -55,7 +57,6 @@ export default async function CuentasPage() {
       return;
     }
 
-    // Crear un nuevo cliente dentro de la Server Action
     const supabaseAction = await createClient();
 
     const { error } = await supabaseAction
