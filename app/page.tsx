@@ -19,7 +19,7 @@ interface Circuito {
 }
 
 // Tipo correcto para el cliente Supabase (Server)
-type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
+//type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
 
 export default async function Home() {
   const supabase = await createClient();
