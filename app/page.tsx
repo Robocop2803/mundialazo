@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import F1Standings from './moal/page';   // Asegúrate que la ruta sea correcta
+import F1Standings from './moal/page';
 
 interface RaceResult {
   id?: number;
@@ -17,6 +17,9 @@ interface Circuito {
   name: string;
   country: string;
 }
+
+// Tipo correcto para el cliente Supabase (Server)
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
 
 export default async function Home() {
   const supabase = await createClient();
@@ -51,7 +54,6 @@ export default async function Home() {
 
   if (errorCircuitos) {
     console.error('Error al cargar circuitos:', errorCircuitos);
-    // Continuamos sin circuitos (el componente tiene fallback)
   }
 
   const circuitos: Circuito[] = circuitosData ?? [];
@@ -69,7 +71,7 @@ export default async function Home() {
  * Actualiza los nombres de los pilotos en la tabla resultadosV2
  * usando la información de la tabla 'cuentas'
  */
-async function actualizarNombresDePilotos(supabase: any) {   // Temporalmente any (puedes mejorar después)
+async function actualizarNombresDePilotos(supabase: SupabaseClient) {
   try {
     console.log('🔄 Iniciando actualización de nombres de pilotos...');
 
@@ -80,7 +82,7 @@ async function actualizarNombresDePilotos(supabase: any) {   // Temporalmente an
 
     if (errorCuentas) {
       console.error('❌ Error al obtener cuentas:', errorCuentas);
-      return; // No lanzamos error para no romper toda la página
+      return;
     }
 
     if (!cuentas || cuentas.length === 0) {
